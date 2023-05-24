@@ -2,17 +2,17 @@
 {
     public class ToDoTask
     {
-        private Guid _id { get; set; }
-        private string _task { get; set; }
-        private DateTime? _createdDate { get; set; }
-        private DateTime? _doneDate { get; set; }
+        public Guid Id { get; set; }
+        public string Task { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? DoneDate { get; set; }
 
         public ToDoTask(string newTask)
         {
-            _id = Guid.NewGuid();
-            _task = newTask;
-            _createdDate = DateTime.Today;
-            _doneDate = null;
+            Id = Guid.NewGuid();
+            Task = newTask;
+            CreatedDate = DateTime.Today;
+            DoneDate = null;
         }
 
         public void CreateTask(string taskToAdd)
@@ -22,30 +22,30 @@
 
         public Guid ShowID()
         {
-            return _id;
+            return Id;
         }
         public string ShowTask()
         {
-            return _task;
+            return Task;
         }
         public DateTime? ShowDate()
         {
-            return _createdDate;
+            return CreatedDate;
         }
 
         public DateTime? ShowDoneDate()
         {
-            return _doneDate;
+            return DoneDate;
         }
 
         public void MarkAsDone()
         {
-            _doneDate = DateTime.Today;
+            DoneDate = DateTime.Today;
         }
 
         public void EditTask(string newTask)
         {
-            _task = newTask;
+            Task = newTask;
         }
 
 
