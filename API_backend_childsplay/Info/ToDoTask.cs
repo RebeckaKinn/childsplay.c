@@ -6,7 +6,7 @@
         public string Task { get; set; }
         public bool IsCompleted { get; set; }
 
-        public ToDoTask() { } //this is needed for some reason
+        public ToDoTask() { }
         public ToDoTask(string newTask)
         {
             Id = Guid.NewGuid();
