@@ -1,10 +1,10 @@
-﻿namespace SideProjectApp
+﻿namespace API_backend_childsplay.Info
 {
     public class FoodItem
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Img? { get; set; }
+        public string Img { get; set; }
 
         public Guid Id;
 
@@ -12,7 +12,7 @@
         {
             Name = name;
             Description = description;
-            Img? = img;
+            Img = img;
             Id = Guid.NewGuid();
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace SideProjectApp
+﻿namespace API_backend_childsplay.Info
 {
     public class Activity
     {

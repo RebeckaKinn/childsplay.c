@@ -1,4 +1,6 @@
-﻿namespace SideProjectApp
+﻿using API_backend_childsplay.Info;
+
+namespace API_backend_childsplay.DataBase
 {
     public class DB
     {
