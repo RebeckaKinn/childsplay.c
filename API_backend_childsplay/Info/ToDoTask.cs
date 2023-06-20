@@ -5,6 +5,8 @@
         public Guid Id { get; set; }
         public string Task { get; set; }
         public bool IsCompleted { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime? Done { get; set; }
 
         public ToDoTask() { }
         public ToDoTask(string newTask)
@@ -12,6 +14,8 @@
             Id = Guid.NewGuid();
             Task = newTask;
             IsCompleted = false;
+            Date = DateTime.Now;
+            Done = null;
         }
 
         public void CreateTask(string taskToAdd)
@@ -31,6 +35,8 @@
         public void ToggleComplete()
         {
             IsCompleted = !IsCompleted;
+            if (IsCompleted) { Done = DateTime.Now; }
+            else { Done = null; };
         }
 
     }

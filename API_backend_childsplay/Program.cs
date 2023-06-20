@@ -41,7 +41,7 @@ app.UseHttpsRedirection();
 app.MapGet("/to-do-list", async () =>
 {
     var conn = new SqlConnection(connStr);
-    const string sql = "SELECT Id, Task, IsCompleted FROM Task";
+    const string sql = "SELECT Id, Task, IsCompleted, Date, Done FROM Task ORDER BY Date";
     var tasks = await conn.QueryAsync<ToDoTask>(sql);
     return tasks;
 });
@@ -52,8 +52,8 @@ app.MapPost("/to-do-list", async (string task) =>
     var conn = new SqlConnection(connStr);
     var newTask = new ToDoTask(task);
 
-    const string sql = "INSERT INTO Task (Id, Task, IsCompleted) VALUES (@Id, @Task, @IsCompleted)";
-    return await conn.ExecuteAsync(sql, new { newTask.Id, newTask.Task, newTask.IsCompleted });
+    const string sql = "INSERT INTO Task (id, task, isCompleted, date, done) VALUES (@Id, @Task, @IsCompleted, @Date, @Done)";
+    return await conn.ExecuteAsync(sql, new { newTask.Id, newTask.Task, newTask.IsCompleted, newTask.Date, newTask.Done });
 });
 
 //checkbox
@@ -61,7 +61,16 @@ app.MapPut("/to-do-list", async (ToDoTask task) =>
 {
     task.ToggleComplete();
     var conn = new SqlConnection(connStr);
-    const string sql = "UPDATE Task SET IsCompleted = CASE WHEN @IsCompleted = 1 THEN 1 ELSE 0 END WHERE Id = @Id";
+    string sql = "UPDATE Task SET IsCompleted = CASE WHEN @IsCompleted = 1 THEN 1 ELSE 0 END";
+    if (task.IsCompleted)
+    {
+        sql += ", Done = GETDATE()";
+    }
+    else
+    {
+        sql += ", Done = NULL";
+    }
+    sql += " WHERE Id = @Id;";
     return await conn.ExecuteAsync(sql, task);
 
 });
