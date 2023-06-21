@@ -59,9 +59,10 @@ app.MapPost("/to-do-list", async (string task) =>
 //checkbox
 app.MapPut("/to-do-list", async (ToDoTask task) =>
 {
+    Console.WriteLine(task.ToString());
     task.ToggleComplete();
     var conn = new SqlConnection(connStr);
-    string sql = "UPDATE Task SET IsCompleted = CASE WHEN @IsCompleted = 1 THEN 1 ELSE 0 END";
+    string sql = "UPDATE Task SET IsCompleted = @IsCompleted";
     if (task.IsCompleted)
     {
         sql += ", Done = GETDATE()";
@@ -71,6 +72,7 @@ app.MapPut("/to-do-list", async (ToDoTask task) =>
         sql += ", Done = NULL";
     }
     sql += " WHERE Id = @Id;";
+    Console.WriteLine(sql);
     return await conn.ExecuteAsync(sql, task);
 
 });

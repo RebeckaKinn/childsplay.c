@@ -18,6 +18,12 @@
             Done = null;
         }
 
+        public string ToString()
+        {
+
+            return Task + " : " + Id + " : " + IsCompleted;
+        }
+
         public void CreateTask(string taskToAdd)
         {
             new ToDoTask(taskToAdd);
