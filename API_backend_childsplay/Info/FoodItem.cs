@@ -1,13 +1,13 @@
 ﻿namespace API_backend_childsplay.Info
 {
-    public class FoodItem
+    public class FoodItem : IMenuItem
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public string Img { get; set; }
+        public Guid Id { get; }
 
-        public Guid Id;
-
+        public FoodItem() { }
         public FoodItem(string name, string description, string img)
         {
             Name = name;

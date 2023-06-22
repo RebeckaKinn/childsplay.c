@@ -1,3 +1,4 @@
+using API_backend_childsplay;
 using API_backend_childsplay.Info;
 using Dapper;
 using System.Data.SqlClient;
@@ -86,5 +87,36 @@ app.MapDelete("/settings", async () =>
 
 });
 
-app.Run();
 
+//INNER MENU AND RND MENU
+//get dinner
+app.MapGet("/inner-menu/dinner", async () =>
+{
+    var conn = new SqlConnection(connStr);
+    const string sql = "SELECT Name, Description, Img, Id FROM FoodItem;";
+    var dinner = await conn.QueryAsync<FoodItem>(sql);
+    return dinner;
+});
+
+//get activity
+app.MapGet("/inner-menu/activity", async () =>
+{
+    var conn = new SqlConnection(connStr);
+    const string sql = "SELECT Name, Description, Img, Id FROM ActivityItem;";
+    var activity = await conn.QueryAsync<Activity>(sql);
+    return activity;
+});
+
+//create new rndMenu item
+app.MapPost("/settings/menu-items", async (string name, string description, string img, string page) =>
+{
+    var conn = new SqlConnection(connStr);
+    var newItem = page == "dinnerRnd" ? new FoodItem(name, description, img) : (IMenuItem)new Activity(name, description, img);
+    string tableName = page == "dinnerRnd" ? "FoodItem" : "ActivityItem";
+
+    const string sql = "INSERT INTO {tableName} (name, description, img, id) VALUES (@Name, @Description, @Img, @Id)";
+    return await conn.ExecuteAsync(sql, new { newItem.Name, newItem.Description, newItem.Img, newItem.Id });
+});
+
+
+app.Run();
