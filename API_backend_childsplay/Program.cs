@@ -88,6 +88,11 @@ app.MapDelete("/settings", async () =>
 });
 
 
+
+
+
+
+
 //INNER MENU AND RND MENU
 //get dinner
 app.MapGet("/inner-menu/dinner", async () =>
@@ -112,9 +117,17 @@ app.MapPost("/settings/menu-items", async (string name, string description, stri
 {
     var conn = new SqlConnection(connStr);
     var newItem = page == "dinnerRnd" ? new FoodItem(name, description, img) : (IMenuItem)new Activity(name, description, img);
-    string tableName = page == "dinnerRnd" ? "FoodItem" : "ActivityItem";
 
-    const string sql = "INSERT INTO {tableName} (name, description, img, id) VALUES (@Name, @Description, @Img, @Id)";
+    string sql;
+    if (page == "dinnerRnd")
+    {
+        sql = "INSERT INTO FoodItem (name, description, img, id) VALUES (@Name, @Description, @Img, @Id)";
+    }
+    else
+    {
+        sql = "INSERT INTO ActivityItem (name, description, img, id) VALUES (@Name, @Description, @Img, @Id)";
+    }
+
     return await conn.ExecuteAsync(sql, new { newItem.Name, newItem.Description, newItem.Img, newItem.Id });
 });
 
