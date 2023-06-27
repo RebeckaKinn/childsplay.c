@@ -132,4 +132,31 @@ app.MapPost("/settings/menu-items", async (string name, string description, stri
 });
 
 
+
+//edit rndMenu item
+app.MapPut("/settings/edit", async (string name, string description, string img, string id, string page) =>
+{
+    var conn = new SqlConnection(connStr);
+    string sql;
+    if (page == "dinnerRnd")
+    {
+        sql = "UPDATE FoodItem SET name = @Name, description = @Description, img = @Img WHERE Id = @Id";
+    }
+    else
+    {
+        sql = "UPDATE ActivityItem SET name = @Name, description = @Description, img = @Img WHERE Id = @Id";
+    }
+
+    var parameters = new
+    {
+        Name = name,
+        Description = description,
+        Img = img,
+        Id = id
+    };
+    Console.WriteLine(sql);
+    return await conn.ExecuteAsync(sql, parameters);
+
+});
+
 app.Run();
