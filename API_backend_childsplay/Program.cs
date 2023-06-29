@@ -3,6 +3,7 @@ using API_backend_childsplay.Info;
 using Dapper;
 using System.Data.SqlClient;
 
+
 var builder = WebApplication.CreateBuilder(args);
 const string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=cp.database;Integrated Security=True;";
 
@@ -146,6 +147,8 @@ app.MapPut("/settings/edit", async (string name, string description, string img,
     {
         sql = "UPDATE ActivityItem SET name = @Name, description = @Description, img = @Img WHERE Id = @Id";
     }
+
+    Console.WriteLine(img);
 
     var parameters = new
     {

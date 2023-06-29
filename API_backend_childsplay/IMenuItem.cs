@@ -2,9 +2,9 @@
 {
     public interface IMenuItem
     {
-        string Name { get; }
-        string Description { get; }
-        string Img { get; }
+        string Name { get; set; }
+        string Description { get; set; }
+        string Img { get; set; }
         Guid Id { get; }
     }
 }
