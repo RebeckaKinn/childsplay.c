@@ -4,6 +4,8 @@ using Dapper;
 using System.Data.SqlClient;
 
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 const string connStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=cp.database;Integrated Security=True;";
 
@@ -162,4 +164,23 @@ app.MapPut("/settings/edit", async (string name, string description, string img,
 
 });
 
+//delete item
+app.MapDelete("/edit/delete", async (string id, string page) =>
+{
+    Console.WriteLine(id);
+    var conn = new SqlConnection(connStr);
+    string sql;
+    if (page == "dinnerRnd")
+    {
+        sql = "DELETE FROM FoodItem WHERE Id = @Id";
+    }
+    else
+    {
+        sql = "DELETE FROM ActivityItem WHERE Id = @Id";
+    }
+    return await conn.ExecuteAsync(sql, new { Id = id });
+});
+
 app.Run();
+
+
